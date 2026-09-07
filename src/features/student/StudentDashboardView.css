@@ -1,0 +1,561 @@
+/* ==========================================================================
+   EDUPULSE — STUDENT DASHBOARD VIEW STYLES
+   ========================================================================== */
+
+.student-db-root {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
+  max-width: 1320px;
+  margin: 0 auto;
+  padding-bottom: 40px;
+  animation: fadeIn 0.25s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* 1. HERO GREETING & CONTEXT HEADER */
+.student-db-hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  padding: 24px 28px;
+  background: var(--glass-bg, rgba(16, 24, 39, 0.72));
+  backdrop-filter: blur(var(--glass-blur, 20px));
+  -webkit-backdrop-filter: blur(var(--glass-blur, 20px));
+  border: 1px solid var(--border, rgba(255, 255, 255, 0.10));
+  border-radius: var(--card-radius, 20px);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.25);
+  position: relative;
+  overflow: hidden;
+}
+
+.student-db-hero::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -20%;
+  width: 320px;
+  height: 320px;
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.student-db-hero__greeting {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  z-index: 1;
+}
+
+.student-db-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--primary, #6366f1);
+}
+
+.student-db-hero__greeting h1 {
+  margin: 0;
+  font-size: 1.85rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--text-main, #f3f4f6);
+}
+
+.student-db-hero__greeting p {
+  margin: 0;
+  font-size: 0.95rem;
+  color: var(--text-muted, #9ca3af);
+}
+
+.student-db-hero__actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  z-index: 1;
+}
+
+.student-db-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  border-radius: 12px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+}
+
+.student-db-btn--primary {
+  background: linear-gradient(135deg, var(--primary, #6366f1) 0%, #4f46e5 100%);
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(99, 102, 241, 0.35);
+}
+
+.student-db-btn--primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(99, 102, 241, 0.45);
+}
+
+.student-db-btn--secondary {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text-main, #f3f4f6);
+  border: 1px solid var(--border, rgba(255, 255, 255, 0.12));
+}
+
+.student-db-btn--secondary:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+/* 2. SMART DAY STATE BANNER */
+.student-db-smart-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 16px 24px;
+  border-radius: 16px;
+  background: rgba(16, 24, 39, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  flex-wrap: wrap;
+}
+
+.student-db-smart-banner--live {
+  background: rgba(239, 68, 68, 0.12);
+  border-color: rgba(239, 68, 68, 0.35);
+}
+
+.student-db-smart-banner--break {
+  background: rgba(245, 158, 11, 0.12);
+  border-color: rgba(245, 158, 11, 0.35);
+}
+
+.student-db-smart-banner--completed {
+  background: rgba(16, 185, 129, 0.12);
+  border-color: rgba(16, 185, 129, 0.35);
+}
+
+.student-db-smart-banner--holiday {
+  background: rgba(139, 92, 246, 0.12);
+  border-color: rgba(139, 92, 246, 0.35);
+}
+
+.student-db-smart-banner__left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.student-db-banner-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text-main, #ffffff);
+  flex-shrink: 0;
+}
+
+.student-db-smart-banner--live .student-db-banner-icon {
+  background: rgba(239, 68, 68, 0.2);
+  color: #ef4444;
+}
+
+.student-db-smart-banner--break .student-db-banner-icon {
+  background: rgba(245, 158, 11, 0.2);
+  color: #f59e0b;
+}
+
+.student-db-smart-banner--completed .student-db-banner-icon {
+  background: rgba(16, 185, 129, 0.2);
+  color: #10b981;
+}
+
+.student-db-banner-texts h3 {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text-main, #f3f4f6);
+}
+
+.student-db-banner-texts p {
+  margin: 3px 0 0 0;
+  font-size: 0.88rem;
+  color: var(--text-muted, #9ca3af);
+}
+
+/* Today Progress Bar inside banner */
+.student-db-banner-progress {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 220px;
+}
+
+.student-db-banner-progress__label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-muted, #9ca3af);
+}
+
+.student-db-banner-progress__bar {
+  width: 100%;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.student-db-banner-progress__fill {
+  height: 100%;
+  background: linear-gradient(90deg, #10b981 0%, #06b6d4 100%);
+  border-radius: 999px;
+  transition: width 0.4s ease;
+}
+
+/* 3. METRIC SUMMARY ROW */
+.student-db-metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.student-db-metric-card {
+  padding: 18px 20px;
+  background: var(--glass-bg, rgba(16, 24, 39, 0.72));
+  backdrop-filter: blur(var(--glass-blur, 20px));
+  -webkit-backdrop-filter: blur(var(--glass-blur, 20px));
+  border: 1px solid var(--border, rgba(255, 255, 255, 0.08));
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.student-db-metric-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(255, 255, 255, 0.18);
+}
+
+.student-db-metric-icon {
+  width: 46px;
+  height: 46px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.student-db-metric-icon--indigo { background: rgba(99, 102, 241, 0.15); color: #818cf8; }
+.student-db-metric-icon--cyan { background: rgba(6, 182, 212, 0.15); color: #22d3ee; }
+.student-db-metric-icon--amber { background: rgba(245, 158, 11, 0.15); color: #fbbf24; }
+.student-db-metric-icon--emerald { background: rgba(16, 185, 129, 0.15); color: #34d399; }
+
+.student-db-metric-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.student-db-metric-label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-muted, #9ca3af);
+}
+
+.student-db-metric-val {
+  font-size: 1.55rem;
+  font-weight: 800;
+  color: var(--text-main, #f3f4f6);
+  line-height: 1.2;
+}
+
+.student-db-metric-sub {
+  font-size: 0.76rem;
+  color: var(--text-muted, #9ca3af);
+  margin-top: 2px;
+}
+
+/* 4. MAIN TWO-COLUMN DASHBOARD GRID */
+.student-db-main-grid {
+  display: grid;
+  grid-template-columns: 1.45fr 1fr;
+  gap: 24px;
+}
+
+@media (max-width: 1024px) {
+  .student-db-main-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.student-db-col {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* 5. CARD STYLES */
+.student-db-card {
+  background: var(--glass-bg, rgba(16, 24, 39, 0.72));
+  backdrop-filter: blur(var(--glass-blur, 20px));
+  -webkit-backdrop-filter: blur(var(--glass-blur, 20px));
+  border: 1px solid var(--border, rgba(255, 255, 255, 0.08));
+  border-radius: var(--card-radius, 18px);
+  padding: 22px 24px;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.22);
+}
+
+.student-db-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.student-db-card-header h2 {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text-main, #f3f4f6);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.student-db-card-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--primary, #6366f1);
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+
+.student-db-card-link:hover {
+  opacity: 0.85;
+}
+
+/* 6. TODAY'S TIMELINE LIST */
+.student-db-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.student-db-timeline-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: background 0.2s ease;
+}
+
+.student-db-timeline-item:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.student-db-timeline-item--live {
+  background: rgba(239, 68, 68, 0.08);
+  border-color: rgba(239, 68, 68, 0.3);
+}
+
+.student-db-timeline-item--cancelled {
+  opacity: 0.6;
+  background: rgba(239, 68, 68, 0.04);
+}
+
+.student-db-timeline-item--break {
+  background: rgba(245, 158, 11, 0.05);
+  border-color: rgba(245, 158, 11, 0.15);
+  padding: 8px 12px;
+}
+
+.student-db-timeline-time {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-muted, #9ca3af);
+  min-width: 110px;
+  display: flex;
+  flex-direction: column;
+}
+
+.student-db-timeline-details {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.student-db-timeline-subject {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--text-main, #f3f4f6);
+}
+
+.student-db-timeline-sub {
+  font-size: 0.78rem;
+  color: var(--text-muted, #9ca3af);
+}
+
+/* 7. QUICK TASK CHECKLIST */
+.student-db-tasks {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.student-db-task-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.student-db-task-item:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.student-db-task-checkbox {
+  width: 18px;
+  height: 18px;
+  border-radius: 5px;
+  border: 2px solid var(--border, rgba(255, 255, 255, 0.2));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.student-db-task-item--done .student-db-task-checkbox {
+  background: var(--primary, #6366f1);
+  border-color: var(--primary, #6366f1);
+}
+
+.student-db-task-title {
+  flex: 1;
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: var(--text-main, #e5e7eb);
+  transition: all 0.2s ease;
+}
+
+.student-db-task-item--done .student-db-task-title {
+  text-decoration: line-through;
+  opacity: 0.5;
+}
+
+.student-db-task-input-row {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.student-db-task-input {
+  flex: 1;
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  font-size: 0.85rem;
+}
+
+.student-db-task-input:focus {
+  outline: none;
+  border-color: var(--primary, #6366f1);
+}
+
+/* 8. ATTENDANCE SUMMARY & ALERT */
+.student-db-att-alert {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px 16px;
+  border-radius: 12px;
+  background: rgba(239, 68, 68, 0.12);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: #fca5a5;
+  font-size: 0.86rem;
+  margin-bottom: 14px;
+}
+
+.student-db-att-alert strong {
+  color: #ffffff;
+}
+
+.student-db-att-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.student-db-att-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.02);
+  font-size: 0.84rem;
+}
+
+.student-db-att-row__pct {
+  font-weight: 700;
+  color: #34d399;
+}
+
+.student-db-att-row__pct--low {
+  color: #f87171;
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .student-db-hero {
+    padding: 18px 16px;
+  }
+  .student-db-hero__greeting h1 {
+    font-size: 1.45rem;
+  }
+  .student-db-smart-banner {
+    padding: 14px 16px;
+  }
+  .student-db-banner-progress {
+    min-width: 100%;
+  }
+}

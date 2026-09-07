@@ -1,0 +1,337 @@
+/* ==========================================================================
+   EDUPULSE DESIGN SYSTEM — TOKENS & GLASSMORPHIC ARCHITECTURE
+   ========================================================================== */
+
+:root {
+  --font-body: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-heading: 'Manrope', 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+
+  /* Base Radii */
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius: 16px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --radius-2xl: 24px;
+  --radius-pill: 9999px;
+
+  /* Motion & Durations */
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 220ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-smooth: 300ms cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Light Academic Palette (Default) */
+  --bg: #f4f7fc;
+  --bg-canvas: #f4f7fc;
+  --surface: #ffffff;
+  --surface-muted: #f8fafc;
+  --surface-elevated: #ffffff;
+  --text: #0f172a;
+  --text-muted: #64748b;
+  --line: #e2e8f0;
+
+  /* Primary & Accents */
+  --primary: #3859e9;
+  --primary-glow: rgba(56, 89, 233, 0.3);
+  --primary-dark: #263ec4;
+  --primary-soft: #edf0ff;
+  --cyan-accent: #0284c7;
+  --purple: #6366f1;
+
+  /* Semantic Feedback */
+  --success: #10b981;
+  --success-soft: #ecfdf5;
+  --warning: #f59e0b;
+  --warning-soft: #fffbeb;
+  --danger: #ef4444;
+  --danger-soft: #fef2f2;
+
+  /* Sidebar */
+  --sidebar: #0f172a;
+  --sidebar-text: #cbd5e1;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.06);
+  --shadow: 0 8px 24px -4px rgba(15, 23, 42, 0.08);
+  --shadow-lg: 0 16px 36px -6px rgba(15, 23, 42, 0.12);
+
+  /* Glass Tokens (Light Mode) */
+  --glass-bg: rgba(255, 255, 255, 0.78);
+  --glass-bg-subtle: rgba(255, 255, 255, 0.55);
+  --glass-bg-elevated: rgba(255, 255, 255, 0.92);
+  --glass-border: rgba(226, 232, 240, 0.85);
+  --glass-border-highlight: rgba(255, 255, 255, 0.95);
+  --glass-blur: 20px;
+  --glass-shadow: 0 8px 30px rgba(32, 46, 76, 0.06);
+  --glass-inner-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.8);
+
+  --glass-sidebar-bg: rgba(255, 255, 255, 0.78);
+  --glass-sidebar-border: rgba(255, 255, 255, 0.65);
+  --glass-sidebar-shadow: 0 20px 48px rgba(15, 23, 42, 0.09), inset 0 1px 1px rgba(255, 255, 255, 0.95);
+  --glass-orb-gradient: linear-gradient(135deg, rgba(56, 89, 233, 0.20) 0%, rgba(99, 102, 241, 0.12) 100%);
+  --glass-orb-border: rgba(56, 89, 233, 0.28);
+  --glass-orb-shadow: 0 6px 20px rgba(56, 89, 233, 0.16), inset 0 1px 1px rgba(255, 255, 255, 0.9);
+
+  /* Legacy Bridge Variables for Timetable & Existing CSS */
+  --bg-card: var(--surface);
+  --border: var(--line);
+  --text-main: var(--text);
+  --bg-input: var(--surface-muted);
+}
+
+/* ==========================================================================
+   DARK THEME — DEEP NAVY & ELECTRIC BLUE ACADEMIC IDENTITY
+   ========================================================================== */
+:root[data-theme='dark'] {
+  --bg: #080e1e;
+  --bg-canvas: #080e1e;
+  --surface: #111a33;
+  --surface-muted: #172344;
+  --surface-elevated: #1a274c;
+  --text: #f8fafc;
+  --text-muted: #94a3b8;
+  --line: rgba(255, 255, 255, 0.09);
+
+  --primary: #4f75ff;
+  --primary-glow: rgba(79, 117, 255, 0.35);
+  --primary-dark: #3859e9;
+  --primary-soft: rgba(79, 117, 255, 0.15);
+  --cyan-accent: #00d4ff;
+  --purple: #818cf8;
+
+  --success: #10b981;
+  --success-soft: rgba(16, 185, 129, 0.16);
+  --warning: #f59e0b;
+  --warning-soft: rgba(245, 158, 11, 0.16);
+  --danger: #f43f5e;
+  --danger-soft: rgba(244, 63, 94, 0.16);
+
+  --sidebar: #060b18;
+  --sidebar-text: #cbd5e1;
+
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.3);
+  --shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.45);
+  --shadow-lg: 0 20px 45px -8px rgba(0, 0, 0, 0.6);
+
+  /* Glass Tokens (Dark Mode) */
+  --glass-bg: rgba(17, 26, 51, 0.68);
+  --glass-bg-subtle: rgba(17, 26, 51, 0.45);
+  --glass-bg-elevated: rgba(23, 35, 68, 0.82);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-border-highlight: rgba(255, 255, 255, 0.18);
+  --glass-blur: 20px;
+  --glass-shadow: 0 10px 32px 0 rgba(0, 0, 0, 0.38);
+  --glass-inner-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.12);
+
+  --glass-sidebar-bg: rgba(16, 24, 39, 0.74); /* 0xFF101827 with 0.74 opacity */
+  --glass-sidebar-border: rgba(255, 255, 255, 0.11);
+  --glass-sidebar-shadow: 0 24px 60px rgba(0, 0, 0, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.18), inset 0 0 24px rgba(255, 255, 255, 0.02);
+  --glass-orb-gradient: linear-gradient(135deg, rgba(79, 140, 255, 0.32) 0%, rgba(118, 92, 255, 0.18) 100%);
+  --glass-orb-border: rgba(255, 255, 255, 0.14);
+  --glass-orb-shadow: 0 8px 24px rgba(79, 140, 255, 0.20), inset 0 1px 1px rgba(255, 255, 255, 0.35);
+
+  --bg-card: var(--surface);
+  --border: var(--line);
+  --text-main: var(--text);
+  --bg-input: var(--surface-muted);
+}
+
+/* ==========================================================================
+   COMFORT THEME — WARM ACADEMIC SEPIA
+   ========================================================================== */
+:root[data-theme='comfort'] {
+  --bg: #f5f0e6;
+  --bg-canvas: #f5f0e6;
+  --surface: #fdfbf7;
+  --surface-muted: #f4ede0;
+  --surface-elevated: #ffffff;
+  --text: #332b20;
+  --text-muted: #786f60;
+  --line: #e6dac6;
+
+  --primary: #8b5cf6;
+  --primary-glow: rgba(139, 92, 246, 0.25);
+  --primary-dark: #7c3aed;
+  --primary-soft: #f1ebfa;
+  --cyan-accent: #0284c7;
+  --purple: #8b5cf6;
+
+  --success: #059669;
+  --success-soft: #ecfdf5;
+  --warning: #d97706;
+  --warning-soft: #fffbeb;
+  --danger: #e11d48;
+  --danger-soft: #fff1f2;
+
+  --sidebar: #2b251e;
+  --sidebar-text: #ece2d4;
+
+  --shadow-sm: 0 1px 3px rgba(60, 45, 30, 0.05);
+  --shadow: 0 8px 24px -4px rgba(60, 45, 30, 0.07);
+  --shadow-lg: 0 16px 36px -6px rgba(60, 45, 30, 0.1);
+
+  /* Glass Tokens (Comfort Mode) */
+  --glass-bg: rgba(253, 251, 247, 0.82);
+  --glass-bg-subtle: rgba(253, 251, 247, 0.6);
+  --glass-bg-elevated: rgba(255, 255, 255, 0.95);
+  --glass-border: rgba(230, 218, 198, 0.85);
+  --glass-border-highlight: rgba(255, 255, 255, 0.9);
+  --glass-blur: 20px;
+  --glass-shadow: 0 8px 28px rgba(60, 45, 30, 0.06);
+  --glass-inner-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.9);
+
+  --glass-sidebar-bg: rgba(247, 243, 234, 0.82);
+  --glass-sidebar-border: rgba(214, 203, 185, 0.65);
+  --glass-sidebar-shadow: 0 20px 48px rgba(78, 63, 46, 0.10), inset 0 1px 1px rgba(255, 255, 255, 0.85);
+  --glass-orb-gradient: linear-gradient(135deg, rgba(139, 92, 246, 0.20) 0%, rgba(168, 85, 247, 0.12) 100%);
+  --glass-orb-border: rgba(139, 92, 246, 0.26);
+  --glass-orb-shadow: 0 6px 20px rgba(139, 92, 246, 0.15), inset 0 1px 1px rgba(255, 255, 255, 0.85);
+
+  --bg-card: var(--surface);
+  --border: var(--line);
+  --text-main: var(--text);
+  --bg-input: var(--surface-muted);
+}
+
+/* ==========================================================================
+   STATE ATTRIBUTES CONTROLS (Settings UI Engine)
+   ========================================================================== */
+
+/* 1. Glass Effect = OFF */
+[data-glass='false'] {
+  --glass-bg: var(--surface);
+  --glass-bg-subtle: var(--surface-muted);
+  --glass-bg-elevated: var(--surface-elevated);
+  --glass-blur: 0px;
+  --glass-inner-shadow: none;
+}
+
+[data-glass='false'] .glass-card,
+[data-glass='false'] .card,
+[data-glass='false'] .topbar,
+[data-glass='false'] .sidebar,
+[data-glass='false'] .modal,
+[data-glass='false'] .bottom-nav,
+[data-glass='false'] .profile-menu,
+[data-glass='false'] .chat-sidebar,
+[data-glass='false'] .chat-window,
+[data-glass='false'] .timetable-header,
+[data-glass='false'] .timetable-filter-bar {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  background: var(--surface) !important;
+  box-shadow: var(--shadow) !important;
+}
+
+[data-glass='false'] [data-theme='dark'] .sidebar,
+[data-glass='false']:root[data-theme='dark'] .sidebar {
+  background: var(--sidebar) !important;
+}
+
+/* 2. Background Animation = OFF */
+[data-bg-anim='false'] .ambient-background {
+  opacity: 0.12 !important;
+}
+
+[data-bg-anim='false'] .ambient-orb {
+  animation-play-state: paused !important;
+  opacity: 0.2 !important;
+}
+
+/* 3. Card Animations = OFF */
+[data-card-anim='false'] .card,
+[data-card-anim='false'] .metric-card,
+[data-card-anim='false'] .glass-card,
+[data-card-anim='false'] .timetable-grid-card,
+[data-card-anim='false'] .chat-conv-item {
+  transition: none !important;
+}
+
+[data-card-anim='false'] .card:hover,
+[data-card-anim='false'] .metric-card:hover,
+[data-card-anim='false'] .glass-card:hover,
+[data-card-anim='false'] .timetable-grid-card:hover {
+  transform: none !important;
+}
+
+/* 4. Page Transitions = OFF */
+[data-page-trans='false'] .page-stack,
+[data-page-trans='false'] .content,
+[data-page-trans='false'] .page-transition-enter {
+  animation: none !important;
+  transition: none !important;
+}
+
+/* 5. Micro Interactions = OFF */
+[data-micro-interact='false'] .button:hover,
+[data-micro-interact='false'] .button:active,
+[data-micro-interact='false'] .icon-button:hover,
+[data-micro-interact='false'] .icon-button:active,
+[data-micro-interact='false'] .nav-link:hover,
+[data-micro-interact='false'] .chat-tab-pill:active {
+  transform: none !important;
+}
+
+/* 6. Reduced Motion = ON */
+[data-reduced-motion='true'] *,
+[data-reduced-motion='true'] *::before,
+[data-reduced-motion='true'] *::after {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+  scroll-behavior: auto !important;
+}
+
+/* 7. Performance Mode = ON */
+[data-perf-mode='true'] {
+  --glass-blur: 4px;
+}
+
+[data-perf-mode='true'] .ambient-orb {
+  filter: blur(40px) !important;
+  animation-duration: 40s !important;
+}
+
+[data-perf-mode='true'] .glass-card,
+[data-perf-mode='true'] .card,
+[data-perf-mode='true'] .modal,
+[data-perf-mode='true'] .sidebar,
+[data-perf-mode='true'] .topbar {
+  box-shadow: var(--shadow-sm) !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+}
+
+/* ==========================================================================
+   8. Hardware Fallback: Backdrop Filter Unsupported / Low-Power GPUs
+   ========================================================================== */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  :root {
+    --glass-bg: #ffffff !important;
+    --glass-bg-subtle: #f8fafc !important;
+    --glass-bg-elevated: #ffffff !important;
+    --glass-sidebar-bg: #ffffff !important;
+    --glass-blur: 0px !important;
+  }
+  :root[data-theme='dark'] {
+    --glass-bg: #111a33 !important;
+    --glass-bg-subtle: #172344 !important;
+    --glass-bg-elevated: #1a274c !important;
+    --glass-sidebar-bg: #0d152a !important;
+    --glass-blur: 0px !important;
+  }
+  .glass-card,
+  .card,
+  .modal,
+  .sidebar,
+  .topbar,
+  .bottom-nav,
+  .mobile-glass-nav {
+    background-color: var(--surface) !important;
+  }
+  .sidebar,
+  .mobile-glass-nav {
+    background-color: var(--sidebar) !important;
+  }
+}

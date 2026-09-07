@@ -1,0 +1,201 @@
+/* ==========================================================================
+   EDUPULSE APPEARANCE & CUSTOMIZATION SYSTEM DYNAMIC STYLES
+   ========================================================================== */
+
+/* 1. Global Typography & Density Scaling */
+:root {
+  --font-scale: 1;
+  --heading-scale: 1;
+  --sidebar-width: 260px;
+  --sidebar-radius: 28px;
+  --button-radius: 14px;
+  --card-radius: 20px;
+  --nav-item-radius: 18px;
+}
+
+body {
+  font-size: calc(14px * var(--font-scale, 1));
+}
+
+h1 {
+  font-size: calc(24px * var(--heading-scale, 1));
+}
+
+h2 {
+  font-size: calc(20px * var(--heading-scale, 1));
+}
+
+h3 {
+  font-size: calc(16px * var(--heading-scale, 1));
+}
+
+/* 2. UI Density Controls */
+[data-density='compact'] {
+  --density-padding: 12px;
+  --density-gap: 8px;
+}
+
+[data-density='compact'] .content {
+  padding: 14px 18px 40px !important;
+}
+
+[data-density='compact'] .glass-sidebar__nav {
+  gap: 3px !important;
+}
+
+[data-density='compact'] .glass-orb-nav-item,
+[data-density='compact'] .nav-link {
+  min-height: 40px !important;
+  padding: 6px 12px !important;
+}
+
+[data-density='compact'] .metric-card,
+[data-density='compact'] .card {
+  padding: 14px 16px !important;
+}
+
+[data-density='spacious'] {
+  --density-padding: 28px;
+  --density-gap: 16px;
+}
+
+[data-density='spacious'] .content {
+  padding: 32px 36px 60px !important;
+}
+
+[data-density='spacious'] .glass-sidebar__nav {
+  gap: 8px !important;
+}
+
+[data-density='spacious'] .glass-orb-nav-item,
+[data-density='spacious'] .nav-link {
+  min-height: 52px !important;
+  padding: 12px 18px !important;
+}
+
+[data-density='spacious'] .metric-card,
+[data-density='spacious'] .card {
+  padding: 28px 30px !important;
+}
+
+/* 3. Button Shape Presets */
+[data-button-shape='pill'] .button,
+[data-button-shape='pill'] button.btn,
+[data-button-shape='pill'] .theme-button,
+[data-button-shape='pill'] .icon-button:not(.mobile-menu) {
+  border-radius: 9999px !important;
+}
+
+[data-button-shape='sharp'] .button,
+[data-button-shape='sharp'] button.btn,
+[data-button-shape='sharp'] .icon-button {
+  border-radius: 4px !important;
+}
+
+[data-button-shape='capsule'] .button,
+[data-button-shape='capsule'] button.btn,
+[data-button-shape='capsule'] .icon-button {
+  border-radius: 24px !important;
+}
+
+[data-button-shape='glass'] .button {
+  background: var(--glass-bg, rgba(255, 255, 255, 0.12)) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.18) !important;
+  color: var(--text) !important;
+}
+
+[data-button-shape='floating'] .button--primary,
+[data-button-shape='floating'] .btn-android,
+[data-button-shape='floating'] .btn-windows {
+  box-shadow: 0 14px 28px -4px var(--primary-glow, rgba(79, 140, 255, 0.45)) !important;
+  transform: translateY(-1px);
+}
+
+/* 4. Card Style Presets */
+[data-card-style='flat'] .card,
+[data-card-style='flat'] .metric-card,
+[data-card-style='flat'] .assignment-card {
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  background: var(--surface) !important;
+  border: 1px solid var(--line) !important;
+}
+
+[data-card-style='glass'] .card,
+[data-card-style='glass'] .metric-card,
+[data-card-style='glass'] .assignment-card {
+  backdrop-filter: blur(var(--glass-blur, 20px)) saturate(var(--glass-saturation, 190%)) !important;
+  -webkit-backdrop-filter: blur(var(--glass-blur, 20px)) saturate(var(--glass-saturation, 190%)) !important;
+  background: var(--glass-bg, rgba(16, 24, 39, 0.74)) !important;
+  border: 1px solid var(--glass-border, rgba(255, 255, 255, 0.11)) !important;
+}
+
+[data-card-style='floating'] .card,
+[data-card-style='floating'] .metric-card,
+[data-card-style='floating'] .assignment-card {
+  box-shadow: 0 20px 48px -10px rgba(0, 0, 0, 0.42), 0 0 1px rgba(255, 255, 255, 0.15) !important;
+}
+
+[data-card-style='minimal'] .card,
+[data-card-style='minimal'] .metric-card,
+[data-card-style='minimal'] .assignment-card {
+  background: transparent !important;
+  box-shadow: none !important;
+  border: 1px solid var(--line) !important;
+}
+
+/* 5. Glass Orb Shape Presets */
+[data-orb-shape='circle'] .glass-orb-glow-backdrop,
+[data-orb-shape='circle'] .nav-link--active {
+  border-radius: 9999px !important;
+}
+
+[data-orb-shape='soft-circle'] .glass-orb-glow-backdrop,
+[data-orb-shape='soft-circle'] .nav-link--active {
+  border-radius: 24px !important;
+}
+
+[data-orb-shape='capsule'] .glass-orb-glow-backdrop,
+[data-orb-shape='capsule'] .nav-link--active {
+  border-radius: 20px !important;
+}
+
+[data-orb-shape='liquid'] .glass-orb-glow-backdrop,
+[data-orb-shape='liquid'] .nav-link--active {
+  border-radius: 26px 12px 26px 12px !important;
+}
+
+/* 6. Dynamic Sidebar Dimensions & Radius */
+.glass-sidebar {
+  width: var(--sidebar-width, 260px) !important;
+  border-radius: var(--sidebar-radius, 28px) !important;
+}
+
+@media (min-width: 961px) {
+  .main-area {
+    margin-left: calc(var(--sidebar-width, 260px) + 36px) !important;
+    width: calc(100% - (var(--sidebar-width, 260px) + 36px)) !important;
+  }
+}
+
+/* 7. Accessibility High-Contrast Mode Hardening */
+[data-contrast-boost='true'] {
+  --line: rgba(255, 255, 255, 0.35) !important;
+  --glass-border: rgba(255, 255, 255, 0.45) !important;
+}
+
+:root:not([data-theme='dark'])[data-contrast-boost='true'] {
+  --line: rgba(15, 23, 42, 0.35) !important;
+  --glass-border: rgba(15, 23, 42, 0.40) !important;
+}
+
+[data-contrast-boost='true'] .card,
+[data-contrast-boost='true'] .metric-card,
+[data-contrast-boost='true'] .lecture-card,
+[data-contrast-boost='true'] .academic-course-card,
+[data-contrast-boost='true'] .academic-class-card {
+  border-width: 2px !important;
+}

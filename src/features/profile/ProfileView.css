@@ -1,0 +1,531 @@
+/* ==========================================================
+   EduPulse Modern Educational Profile Styles
+   ========================================================== */
+
+.profile-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 980px;
+  margin: 0 auto;
+  padding-bottom: 40px;
+}
+
+/* ----------------- Profile Hero Card ----------------- */
+.profile-hero-card {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  box-shadow: var(--shadow-lg), var(--glass-inner-shadow);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  position: relative;
+}
+
+.profile-hero-banner {
+  height: 120px;
+  background: linear-gradient(135deg, var(--primary), #6366f1, #06b6d4);
+  position: relative;
+}
+
+.profile-hero-content {
+  padding: 0 28px 24px;
+  margin-top: -50px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+  position: relative;
+}
+
+.profile-avatar-block {
+  display: flex;
+  align-items: flex-end;
+  gap: 20px;
+  min-width: 0;
+}
+
+.profile-avatar-wrapper {
+  position: relative;
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  border: 4px solid var(--surface);
+  background: var(--surface);
+  box-shadow: var(--shadow-md);
+  flex-shrink: 0;
+}
+
+.profile-avatar-img,
+.profile-avatar-fallback {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  font-weight: 800;
+  color: #fff;
+  background: var(--primary);
+  text-transform: uppercase;
+}
+
+.profile-photo-overlay {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  opacity: 0;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+  font-size: 11px;
+  font-weight: 600;
+  gap: 4px;
+}
+
+.profile-avatar-wrapper:hover .profile-photo-overlay {
+  opacity: 1;
+}
+
+.profile-photo-remove-btn {
+  position: absolute;
+  top: 0;
+  right: -6px;
+  background: var(--danger);
+  color: #fff;
+  border: 2px solid var(--surface);
+  border-radius: 50%;
+  width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.15s;
+}
+
+.profile-photo-remove-btn:hover {
+  transform: scale(1.1);
+}
+
+.profile-hero-meta {
+  min-width: 0;
+}
+
+.profile-hero-name-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.profile-hero-name {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--text);
+  margin: 0;
+}
+
+.profile-role-pill {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.profile-role-pill--student {
+  background: rgba(37, 99, 235, 0.12);
+  color: #2563eb;
+  border: 1px solid rgba(37, 99, 235, 0.3);
+}
+
+.profile-role-pill--teacher {
+  background: rgba(5, 150, 105, 0.12);
+  color: #059669;
+  border: 1px solid rgba(5, 150, 105, 0.3);
+}
+
+.profile-role-pill--admin {
+  background: rgba(217, 119, 6, 0.12);
+  color: #d97706;
+  border: 1px solid rgba(217, 119, 6, 0.3);
+}
+
+.profile-verification-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 9px;
+  border-radius: 12px;
+}
+
+.profile-verification-badge--approved {
+  background: rgba(5, 150, 105, 0.15);
+  color: #059669;
+}
+
+.profile-verification-badge--pending {
+  background: rgba(217, 119, 6, 0.15);
+  color: #d97706;
+}
+
+.profile-verification-badge--rejected {
+  background: rgba(220, 38, 38, 0.15);
+  color: #dc2626;
+}
+
+.profile-hero-subtitle {
+  font-size: 13.5px;
+  color: var(--text-muted);
+  margin: 4px 0 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.profile-hero-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* ----------------- Profile Quick Facts ----------------- */
+.profile-facts-bar {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  border-top: 1px solid var(--glass-border);
+  background: var(--glass-bg-subtle);
+}
+
+.profile-fact-item {
+  padding: 14px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  border-right: 1px solid var(--glass-border);
+}
+
+.profile-fact-item:last-child {
+  border-right: none;
+}
+
+.profile-fact-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  letter-spacing: 0.05em;
+}
+
+.profile-fact-value {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ----------------- Grid Sections Layout ----------------- */
+.profile-sections-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+@media (max-width: 860px) {
+  .profile-sections-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.profile-card-section {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-xl);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  box-shadow: var(--shadow-sm), var(--glass-inner-shadow);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+}
+
+.profile-card-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--glass-border);
+  padding-bottom: 12px;
+  margin: 0;
+}
+
+
+.profile-card-title h3 {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.profile-card-title svg {
+  color: var(--primary);
+}
+
+/* Data Definition List */
+.profile-dl {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 0;
+}
+
+.profile-dl-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 8px 0;
+  border-bottom: 1px dashed var(--line);
+  font-size: 13.5px;
+}
+
+.profile-dl-row:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.profile-dl-dt {
+  color: var(--text-muted);
+  font-weight: 600;
+  min-width: 130px;
+  flex-shrink: 0;
+}
+
+.profile-dl-dd {
+  color: var(--text);
+  font-weight: 600;
+  margin: 0;
+  text-align: right;
+  word-break: break-word;
+}
+
+.profile-protected-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 10px;
+  color: var(--text-muted);
+  background: var(--surface-muted);
+  padding: 2px 6px;
+  border-radius: 4px;
+  border: 1px solid var(--line);
+  margin-left: 6px;
+}
+
+/* ----------------- Edit Form Styles ----------------- */
+.profile-edit-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.profile-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.profile-form-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.profile-form-input {
+  width: 100%;
+  padding: 10px 14px;
+  font-size: 13.5px;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.profile-form-input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px var(--primary-soft);
+}
+
+.profile-form-input:disabled {
+  background: var(--surface-muted);
+  color: var(--text-muted);
+  cursor: not-allowed;
+}
+
+.profile-form-error {
+  color: var(--danger);
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.profile-form-help {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+/* ----------------- Password Change Form ----------------- */
+.profile-security-box {
+  background: var(--surface-muted);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.profile-security-title {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0;
+}
+
+/* ----------------- Read-Only Modal View (from Chat) ----------------- */
+.member-profile-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(3px);
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+.member-profile-modal {
+  background: var(--surface);
+  border-radius: 16px;
+  width: 100%;
+  max-width: 480px;
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--line);
+  animation: profileModalIn 0.2s ease-out;
+}
+
+@keyframes profileModalIn {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.member-profile-header {
+  position: relative;
+  height: 90px;
+  background: linear-gradient(135deg, var(--primary), #818cf8);
+}
+
+.member-profile-close-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: rgba(0, 0, 0, 0.3);
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.member-profile-body {
+  padding: 0 24px 24px;
+  margin-top: -40px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.member-profile-avatar-row {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+
+.member-profile-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 4px solid var(--surface);
+  background: var(--primary);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+  font-weight: 800;
+  box-shadow: var(--shadow-md);
+}
+
+.member-profile-name {
+  font-size: 19px;
+  font-weight: 800;
+  margin: 10px 0 2px;
+  color: var(--text);
+}
+
+.member-profile-sub {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.member-profile-facts {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: var(--surface-muted);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 14px;
+}
+
+.member-profile-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 14px 24px;
+  border-top: 1px solid var(--line);
+  background: var(--surface-muted);
+}

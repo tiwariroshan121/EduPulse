@@ -1,0 +1,51 @@
+{
+  "name": "edupulse-campus-connect",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "main": "electron/main.cjs",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "lint": "tsc -b --noEmit",
+    "preview": "vite preview",
+    "firebase:deploy": "firebase deploy",
+    "firebase:emulators": "firebase emulators:start",
+    "build:exe": "tsc -b && vite build && electron-builder --win portable --publish never",
+    "build:apk": "npx cap sync android && cmd /c \"set JAVA_HOME=C:\\Program Files\\Android\\Android Studio\\jbr&& set ANDROID_HOME=C:\\Users\\Satyam\\AppData\\Local\\Android\\Sdk&& cd android&& gradlew.bat assembleDebug\""
+  },
+  "build": {
+    "appId": "com.edupulse.campusconnect",
+    "productName": "EduPulse Campus Connect",
+    "directories": {
+      "output": "dist-electron"
+    },
+    "files": [
+      "dist/**/*",
+      "electron/**/*",
+      "package.json"
+    ],
+    "win": {
+      "target": "portable"
+    }
+  },
+  "dependencies": {
+    "@capacitor/android": "^8.5.1",
+    "@capacitor/core": "^8.5.1",
+    "@vitejs/plugin-react": "latest",
+    "firebase": "^10.12.0",
+    "lucide-react": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "react-router-dom": "latest",
+    "vite": "latest"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^8.5.1",
+    "@types/react": "latest",
+    "@types/react-dom": "latest",
+    "electron": "^44.2.0",
+    "electron-builder": "^26.15.3",
+    "typescript": "latest"
+  }
+}

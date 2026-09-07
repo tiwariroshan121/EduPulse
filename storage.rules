@@ -1,0 +1,81 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function getUserData() {
+      return firestore.get(/databases/(default)/documents/users/$(request.auth.uid)).data;
+    }
+
+    function getUserRole() {
+      return getUserData().role;
+    }
+
+    function getUserCollegeId() {
+      return getUserData().collegeId;
+    }
+
+    function isStudent() {
+      return getUserRole() == 'student';
+    }
+
+    function isTeacher() {
+      return getUserRole() == 'teacher';
+    }
+
+    function isAdmin() {
+      return getUserRole() == 'admin';
+    }
+
+    function isTeacherApproved() {
+      return getUserData().verificationStatus == 'approved';
+    }
+
+    // Materials - teachers can upload for their classes, students/teachers can read
+    match /materials/{collegeId}/{materialId}/{fileName} {
+      allow read: if isAuthenticated() && getUserCollegeId() == collegeId
+        && (isStudent() || isTeacher() || isAdmin());
+
+      allow write: if isAuthenticated() && isTeacher() && isTeacherApproved()
+        && getUserCollegeId() == collegeId
+        && request.resource.size < 50 * 1024 * 1024
+        && request.resource.contentType.matches('application/pdf|application/msword|application/vnd.openxmlformats-officedocument.wordprocessingml.document|application/vnd.ms-powerpoint|application/vnd.openxmlformats-officedocument.presentationml.presentation|image/.*');
+    }
+
+    // Assignments - students can upload submissions, teachers can read
+    match /assignments/{collegeId}/{assignmentId}/{studentId}/{fileName} {
+      allow read: if isAuthenticated() && getUserCollegeId() == collegeId
+        && (isTeacher() || (isStudent() && request.auth.uid == studentId) || isAdmin());
+
+      allow write: if isAuthenticated() && isStudent() && request.auth.uid == studentId
+        && getUserCollegeId() == collegeId
+        && request.resource.size < 50 * 1024 * 1024
+        && request.resource.contentType.matches('application/pdf|application/msword|application/vnd.openxmlformats-officedocument.wordprocessingml.document|application/zip|image/.*');
+    }
+
+    // Profiles - users can upload their own profile photo
+    match /profiles/{uid}/{fileName} {
+      allow read: if isAuthenticated();
+      allow write: if isAuthenticated() && request.auth.uid == uid
+        && request.resource.size < 5 * 1024 * 1024
+        && request.resource.contentType.matches('image/.*');
+    }
+
+    // Chat attachments - college members in conversation can read and upload
+    match /chat/{collegeId}/{conversationId}/{fileName} {
+      allow read: if isAuthenticated() && getUserCollegeId() == collegeId;
+      allow write: if isAuthenticated() && getUserCollegeId() == collegeId
+        && request.resource.size < 10 * 1024 * 1024;
+    }
+
+    // Timetable documents (Official images & PDFs uploaded by Admin)
+    match /colleges/{collegeId}/timetables/{documentId}/{fileName} {
+      allow read: if isAuthenticated() && getUserCollegeId() == collegeId;
+      allow write: if isAuthenticated() && isAdmin() && getUserCollegeId() == collegeId
+        && request.resource.size < 20 * 1024 * 1024
+        && request.resource.contentType.matches('application/pdf|image/.*');
+    }
+  }
+}

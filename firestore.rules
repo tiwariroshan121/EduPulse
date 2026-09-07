@@ -1,0 +1,274 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function getUserData() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data;
+    }
+
+    function getUserRole() {
+      return getUserData().role;
+    }
+
+    function getUserCollegeId() {
+      return getUserData().collegeId;
+    }
+
+    function getUserStatus() {
+      return getUserData().status;
+    }
+
+    function isStudent() {
+      return getUserRole() == 'student';
+    }
+
+    function isTeacher() {
+      return getUserRole() == 'teacher';
+    }
+
+    function isAdmin() {
+      return getUserRole() == 'admin';
+    }
+
+    function isActive() {
+      return getUserStatus() == 'active';
+    }
+
+    function isTeacherApproved() {
+      return getUserData().verificationStatus == 'approved';
+    }
+
+    function isSameCollege(collegeId) {
+      return getUserCollegeId() == collegeId;
+    }
+
+    // Users can read their own profile, admins can read any within college
+    match /users/{uid} {
+      allow read: if isAuthenticated() && (request.auth.uid == uid || (isAdmin() && isSameCollege(resource.data.collegeId)));
+      allow create: if isAuthenticated() && request.auth.uid == uid && isSameCollege(request.resource.data.collegeId);
+      allow update: if isAuthenticated() && request.auth.uid == uid
+        && request.resource.data.role == resource.data.role
+        && request.resource.data.collegeId == resource.data.collegeId
+        && request.resource.data.status == resource.data.status;
+      allow delete: if false;
+    }
+
+    // Colleges - only admins can manage
+    match /colleges/{collegeId} {
+      allow read: if isAuthenticated() && isSameCollege(collegeId);
+      allow write: if isAuthenticated() && isAdmin() && isSameCollege(collegeId);
+    }
+
+    // Courses - college scoped
+    match /courses/{courseId} {
+      allow read: if isAuthenticated() && isSameCollege(resource.data.collegeId);
+      allow write: if isAuthenticated() && isAdmin() && isSameCollege(resource.data.collegeId);
+    }
+
+    // Classes - college members can read, admin can write
+    match /classes/{classId} {
+      allow read: if isAuthenticated() && isSameCollege(resource.data.collegeId);
+      allow write: if isAuthenticated() && isAdmin() && isSameCollege(resource.data.collegeId);
+    }
+
+    // Subjects
+    match /subjects/{subjectId} {
+      allow read: if isAuthenticated() && isSameCollege(resource.data.collegeId);
+      allow write: if isAuthenticated() && isAdmin() && isSameCollege(resource.data.collegeId);
+    }
+
+    // Timetable Documents (Official uploaded images/PDFs with versioning)
+    match /timetableDocuments/{documentId} {
+      allow read: if isAuthenticated() && isSameCollege(resource.data.collegeId);
+      allow create: if isAuthenticated() && isAdmin() && isSameCollege(request.resource.data.collegeId);
+      allow update, delete: if isAuthenticated() && isAdmin() && isSameCollege(resource.data.collegeId);
+    }
+
+    // Timetable Entries (Structured schedules, cancellations, rescheduling, substitute teachers)
+    match /timetable/{entryId} {
+      allow read: if isAuthenticated() && isSameCollege(resource.data.collegeId);
+      allow create: if isAuthenticated()
+        && (isAdmin() || (isTeacher() && (request.resource.data.teacherId == request.auth.uid || request.resource.data.substituteTeacherId == request.auth.uid)))
+        && isSameCollege(request.resource.data.collegeId);
+      allow update: if isAuthenticated()
+        && (isAdmin() || (isTeacher() && (resource.data.teacherId == request.auth.uid || resource.data.substituteTeacherId == request.auth.uid)))
+        && isSameCollege(resource.data.collegeId);
+      allow delete: if isAuthenticated()
+        && (isAdmin() || (isTeacher() && (resource.data.teacherId == request.auth.uid || resource.data.substituteTeacherId == request.auth.uid)))
+        && isSameCollege(resource.data.collegeId);
+    }
+
+    match /timetableEntries/{entryId} {
+      allow read: if isAuthenticated() && isSameCollege(resource.data.collegeId);
+      allow create: if isAuthenticated()
+        && (isAdmin() || (isTeacher() && (request.resource.data.teacherId == request.auth.uid || request.resource.data.substituteTeacherId == request.auth.uid)))
+        && isSameCollege(request.resource.data.collegeId);
+      allow update: if isAuthenticated()
+        && (isAdmin() || (isTeacher() && (resource.data.teacherId == request.auth.uid || resource.data.substituteTeacherId == request.auth.uid)))
+        && isSameCollege(resource.data.collegeId);
+      allow delete: if isAuthenticated()
+        && (isAdmin() || (isTeacher() && (resource.data.teacherId == request.auth.uid || resource.data.substituteTeacherId == request.auth.uid)))
+        && isSameCollege(resource.data.collegeId);
+    }
+
+    // Holidays
+    match /holidays/{holidayId} {
+      allow read: if isAuthenticated() && isSameCollege(resource.data.collegeId);
+      allow write: if isAuthenticated() && isAdmin() && isSameCollege(request.resource.data.collegeId);
+    }
+
+    // Teacher Leaves (Feature #21: Teacher Leave + Return Management)
+    match /teacherLeaves/{leaveId} {
+      allow read: if isAuthenticated() && isSameCollege(resource.data.collegeId);
+      allow create: if isAuthenticated()
+        && (isAdmin() || (isTeacher() && request.resource.data.teacherId == request.auth.uid))
+        && isSameCollege(request.resource.data.collegeId);
+      allow update: if isAuthenticated()
+        && (isAdmin() || (isTeacher() && resource.data.teacherId == request.auth.uid))
+        && isSameCollege(resource.data.collegeId);
+      allow delete: if isAuthenticated() && isAdmin() && isSameCollege(resource.data.collegeId);
+    }
+
+    // Announcements - audience-based access
+    match /announcements/{announcementId} {
+      allow read: if isAuthenticated() && isSameCollege(resource.data.collegeId)
+        && (resource.data.audienceType == 'all_students' && isStudent()
+          || resource.data.audienceType == 'all_teachers' && isTeacher()
+          || resource.data.audienceType == 'students_and_teachers'
+          || resource.data.audienceType == 'specific_class'
+            && (isStudent() && exists(/databases/$(database)/documents/classes/$(resource.data.classId))
+                && get(/databases/$(database)/documents/classes/$(resource.data.classId)).data.studentIds.hasAny([request.auth.uid])
+              || isTeacher() && get(/databases/$(database)/documents/classes/$(resource.data.classId)).data.teacherIds.hasAny([request.auth.uid])));
+      allow create: if isAuthenticated() && (isAdmin() || (isTeacher() && request.resource.data.createdBy == request.auth.uid))
+        && isSameCollege(request.resource.data.collegeId);
+      allow update, delete: if isAuthenticated() && (isAdmin() || (isTeacher() && resource.data.createdBy == request.auth.uid))
+        && isSameCollege(resource.data.collegeId);
+    }
+
+    // Materials - students/teachers of the class can read, teachers can create for their classes
+    match /materials/{materialId} {
+      allow read: if isAuthenticated() && isSameCollege(resource.data.collegeId)
+        && (isStudent() && exists(/databases/$(database)/documents/classes/$(resource.data.classId))
+            && get(/databases/$(database)/documents/classes/$(resource.data.classId)).data.studentIds.hasAny([request.auth.uid])
+          || isTeacher() && resource.data.teacherId == request.auth.uid
+          || isAdmin());
+      allow create: if isAuthenticated() && isTeacher() && request.resource.data.teacherId == request.auth.uid
+        && isSameCollege(request.resource.data.collegeId)
+        && exists(/databases/$(database)/documents/classes/$(request.resource.data.classId))
+        && get(/databases/$(database)/documents/classes/$(request.resource.data.classId)).data.teacherIds.hasAny([request.auth.uid]);
+      allow delete: if isAuthenticated() && (isAdmin() || (isTeacher() && resource.data.teacherId == request.auth.uid))
+        && isSameCollege(resource.data.collegeId);
+    }
+
+    // Assignments - students/teachers of the class can read, teachers can create for their classes
+    match /assignments/{assignmentId} {
+      allow read: if isAuthenticated() && isSameCollege(resource.data.collegeId)
+        && (isStudent() && exists(/databases/$(database)/documents/classes/$(resource.data.classId))
+            && get(/databases/$(database)/documents/classes/$(resource.data.classId)).data.studentIds.hasAny([request.auth.uid])
+          || isTeacher() && resource.data.teacherId == request.auth.uid
+          || isAdmin());
+      allow create: if isAuthenticated() && isTeacher() && request.resource.data.teacherId == request.auth.uid
+        && isSameCollege(request.resource.data.collegeId)
+        && exists(/databases/$(database)/documents/classes/$(request.resource.data.classId))
+        && get(/databases/$(database)/documents/classes/$(request.resource.data.classId)).data.teacherIds.hasAny([request.auth.uid]);
+      allow update: if isAuthenticated() && (isAdmin() || (isTeacher() && resource.data.teacherId == request.auth.uid))
+        && isSameCollege(resource.data.collegeId);
+      allow delete: if isAuthenticated() && (isAdmin() || (isTeacher() && resource.data.teacherId == request.auth.uid))
+        && isSameCollege(resource.data.collegeId);
+    }
+
+    // Submissions - students can create their own, teachers can read/grade their class assignments
+    match /submissions/{submissionId} {
+      allow read: if isAuthenticated() && isSameCollege(resource.data.collegeId)
+        && (isStudent() && resource.data.studentId == request.auth.uid
+          || isTeacher() && exists(/databases/$(database)/documents/assignments/$(resource.data.assignmentId))
+              && get(/databases/$(database)/documents/assignments/$(resource.data.assignmentId)).data.teacherId == request.auth.uid
+          || isAdmin());
+      allow create: if isAuthenticated() && isStudent() && request.resource.data.studentId == request.auth.uid
+        && isSameCollege(request.resource.data.collegeId)
+        && exists(/databases/$(database)/documents/assignments/$(request.resource.data.assignmentId));
+      allow update: if isAuthenticated() && isTeacher()
+        && exists(/databases/$(database)/documents/assignments/$(resource.data.assignmentId))
+        && get(/databases/$(database)/documents/assignments/$(resource.data.assignmentId)).data.teacherId == request.auth.uid
+        && request.resource.data.keys().hasOnly(['marks', 'feedback', 'status', 'gradedAt', 'gradedBy', 'updatedAt']);
+    }
+
+    // Doubts - students can create their own, teachers can answer their class/subject
+    match /doubts/{doubtId} {
+      allow read: if isAuthenticated() && isSameCollege(resource.data.collegeId)
+        && (isStudent() && resource.data.studentId == request.auth.uid
+          || isTeacher() && exists(/databases/$(database)/documents/classes/$(resource.data.classId))
+              && get(/databases/$(database)/documents/classes/$(resource.data.classId)).data.teacherIds.hasAny([request.auth.uid])
+              && get(/databases/$(database)/documents/subjects/$(resource.data.subjectId)).data.teacherIds.hasAny([request.auth.uid])
+          || isAdmin());
+      allow create: if isAuthenticated() && isStudent() && request.resource.data.studentId == request.auth.uid
+        && isSameCollege(request.resource.data.collegeId);
+      allow update: if isAuthenticated() && isTeacher()
+        && exists(/databases/$(database)/documents/classes/$(resource.data.classId))
+        && get(/databases/$(database)/documents/classes/$(resource.data.classId)).data.teacherIds.hasAny([request.auth.uid])
+        && get(/databases/$(database)/documents/subjects/$(resource.data.subjectId)).data.teacherIds.hasAny([request.auth.uid])
+        && request.resource.data.keys().hasOnly(['status', 'teacherResponse', 'answeredBy', 'answeredAt', 'updatedAt']);
+    }
+
+    // Messages - class members can read/write
+    match /messages/{messageId} {
+      allow read: if isAuthenticated() && isSameCollege(resource.data.collegeId)
+        && (isStudent() && exists(/databases/$(database)/documents/classes/$(resource.data.classId))
+            && get(/databases/$(database)/documents/classes/$(resource.data.classId)).data.studentIds.hasAny([request.auth.uid])
+          || isTeacher() && get(/databases/$(database)/documents/classes/$(resource.data.classId)).data.teacherIds.hasAny([request.auth.uid])
+          || isAdmin());
+      allow create: if isAuthenticated() && request.resource.data.senderId == request.auth.uid
+        && isSameCollege(request.resource.data.collegeId)
+        && exists(/databases/$(database)/documents/classes/$(request.resource.data.classId))
+        && (get(/databases/$(database)/documents/classes/$(request.resource.data.classId)).data.studentIds.hasAny([request.auth.uid])
+          || get(/databases/$(database)/documents/classes/$(request.resource.data.classId)).data.teacherIds.hasAny([request.auth.uid]));
+    }
+
+    // Notifications - users can read their own
+    match /notifications/{notificationId} {
+      allow read: if isAuthenticated() && resource.data.recipientId == request.auth.uid;
+      allow update: if isAuthenticated() && resource.data.recipientId == request.auth.uid
+        && request.resource.data.keys().hasOnly(['read', 'updatedAt']);
+      allow create: if isAuthenticated() && (isAdmin() || isTeacher()) && isSameCollege(request.resource.data.collegeId);
+    }
+
+    // Teacher verification requests - admins can manage, teachers can create
+    match /teacherVerificationRequests/{requestId} {
+      allow read: if isAuthenticated() && isSameCollege(resource.data.collegeId) && (isAdmin() || resource.data.uid == request.auth.uid);
+      allow create: if isAuthenticated() && request.resource.data.uid == request.auth.uid && isSameCollege(request.resource.data.collegeId);
+      allow update: if isAuthenticated() && isAdmin() && isSameCollege(resource.data.collegeId)
+        && request.resource.data.keys().hasOnly(['status', 'reviewedAt', 'reviewedBy', 'updatedAt']);
+    }
+
+    // Device tokens - users can manage their own
+    match /deviceTokens/{tokenId} {
+      allow read: if isAuthenticated() && resource.data.uid == request.auth.uid;
+      allow write: if isAuthenticated() && request.auth.uid == request.auth.uid;
+    }
+
+    // Conversations - participants only, strictly within same college (plus admin oversight)
+    match /conversations/{conversationId} {
+      allow read: if isAuthenticated() && isSameCollege(resource.data.collegeId)
+        && (resource.data.participants.hasAny([request.auth.uid]) || isAdmin());
+      allow create: if isAuthenticated() && isSameCollege(request.resource.data.collegeId)
+        && (request.resource.data.participants.hasAny([request.auth.uid]) || isAdmin());
+      allow update: if isAuthenticated() && isSameCollege(resource.data.collegeId)
+        && (resource.data.participants.hasAny([request.auth.uid]) || isAdmin());
+      allow delete: if isAuthenticated() && isSameCollege(resource.data.collegeId)
+        && (resource.data.adminIds.hasAny([request.auth.uid]) || isAdmin());
+    }
+
+    // Chat messages - participants of conversation within college
+    match /chatMessages/{messageId} {
+      allow read: if isAuthenticated() && isSameCollege(resource.data.collegeId);
+      allow create: if isAuthenticated() && request.resource.data.senderId == request.auth.uid
+        && isSameCollege(request.resource.data.collegeId);
+      allow update: if isAuthenticated() && isSameCollege(resource.data.collegeId);
+      allow delete: if isAuthenticated() && (resource.data.senderId == request.auth.uid || isAdmin())
+        && isSameCollege(resource.data.collegeId);
+    }
+  }
+}

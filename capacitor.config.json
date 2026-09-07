@@ -1,0 +1,8 @@
+{
+  "appId": "com.edupulse.campusconnect",
+  "appName": "EduPulse",
+  "webDir": "dist",
+  "server": {
+    "androidScheme": "https"
+  }
+}

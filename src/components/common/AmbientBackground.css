@@ -1,0 +1,119 @@
+/* ==========================================================================
+   AMBIENT BACKGROUND SYSTEM — ATMOSPHERIC GRADIENTS & ORBS
+   ========================================================================== */
+
+.ambient-background {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+  background: var(--bg-canvas);
+  transition: background var(--transition-normal);
+}
+
+.ambient-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.65;
+  will-change: transform;
+  pointer-events: none;
+  transform: translate3d(0, 0, 0);
+}
+
+/* Orb 1: Primary Accent (Top Left) */
+.ambient-orb--1 {
+  width: clamp(320px, 45vw, 600px);
+  height: clamp(320px, 45vw, 600px);
+  top: -12%;
+  left: -8%;
+  background: var(--ambient-orb-1, radial-gradient(circle, rgba(56, 89, 233, 0.45) 0%, rgba(56, 89, 233, 0.05) 70%, transparent 100%));
+  animation: floatOrb1 18s ease-in-out infinite alternate;
+}
+
+/* Orb 2: Secondary Accent (Top Right) */
+.ambient-orb--2 {
+  width: clamp(280px, 40vw, 540px);
+  height: clamp(280px, 40vw, 540px);
+  top: 5%;
+  right: -10%;
+  background: var(--ambient-orb-2, radial-gradient(circle, rgba(99, 102, 241, 0.4) 0%, rgba(99, 102, 241, 0.05) 70%, transparent 100%));
+  animation: floatOrb2 22s ease-in-out infinite alternate;
+}
+
+/* Orb 3: Tertiary Glow (Bottom Left) */
+.ambient-orb--3 {
+  width: clamp(250px, 35vw, 480px);
+  height: clamp(250px, 35vw, 480px);
+  bottom: -10%;
+  left: 15%;
+  background: var(--ambient-orb-3, radial-gradient(circle, rgba(0, 212, 255, 0.28) 0%, rgba(0, 212, 255, 0.04) 70%, transparent 100%));
+  animation: floatOrb3 20s ease-in-out infinite alternate;
+}
+
+/* Orb 4: Deep Atmosphere (Bottom Right) */
+.ambient-orb--4 {
+  width: clamp(300px, 42vw, 550px);
+  height: clamp(300px, 42vw, 550px);
+  bottom: 0%;
+  right: 5%;
+  background: var(--ambient-orb-4, radial-gradient(circle, rgba(30, 64, 175, 0.35) 0%, rgba(30, 64, 175, 0.04) 70%, transparent 100%));
+  animation: floatOrb4 24s ease-in-out infinite alternate;
+}
+
+/* Light Theme Adjustments */
+:root:not([data-theme='dark']) .ambient-orb--1 {
+  background: radial-gradient(circle, rgba(56, 89, 233, 0.2) 0%, rgba(56, 89, 233, 0.02) 70%, transparent 100%);
+  opacity: 0.55;
+}
+:root:not([data-theme='dark']) .ambient-orb--2 {
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.16) 0%, rgba(99, 102, 241, 0.02) 70%, transparent 100%);
+  opacity: 0.5;
+}
+:root:not([data-theme='dark']) .ambient-orb--3 {
+  background: radial-gradient(circle, rgba(2, 132, 199, 0.15) 0%, rgba(2, 132, 199, 0.02) 70%, transparent 100%);
+  opacity: 0.45;
+}
+:root:not([data-theme='dark']) .ambient-orb--4 {
+  background: radial-gradient(circle, rgba(56, 89, 233, 0.14) 0%, rgba(56, 89, 233, 0.02) 70%, transparent 100%);
+  opacity: 0.45;
+}
+
+/* Delicate subtle noise or overlay pattern for depth */
+.ambient-mesh {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 0);
+  background-size: 32px 32px;
+  opacity: 0.4;
+}
+:root:not([data-theme='dark']) .ambient-mesh {
+  background-image: radial-gradient(rgba(0, 0, 0, 0.02) 1px, transparent 0);
+  opacity: 0.25;
+}
+
+/* Smooth continuous floating animations */
+@keyframes floatOrb1 {
+  0% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(8%, 12%, 0) scale(1.08); }
+  100% { transform: translate3d(-6%, 6%, 0) scale(0.95); }
+}
+
+@keyframes floatOrb2 {
+  0% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(-10%, 8%, 0) scale(1.05); }
+  100% { transform: translate3d(5%, 15%, 0) scale(0.92); }
+}
+
+@keyframes floatOrb3 {
+  0% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(12%, -10%, 0) scale(1.1); }
+  100% { transform: translate3d(-8%, -5%, 0) scale(0.9); }
+}
+
+@keyframes floatOrb4 {
+  0% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(-12%, -8%, 0) scale(1.06); }
+  100% { transform: translate3d(6%, -12%, 0) scale(0.94); }
+}
